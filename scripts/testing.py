@@ -3,12 +3,14 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix
 
-model = joblib.load('D:/ml project/aviation_incident_model.pkl')
+model = joblib.load('D:/ml project/models/aviation_severity_model.pkl')
+df = pd.read_csv("D:/ml project/data/cleaned/final_aviation_data.csv")
+df.drop(columns = ["investigation_type"])
 print("model loaded sucessfully!")
 
-df = pd.read_csv("D:/ml project/data/final_aviation_data.csv")
+df = pd.read_csv("D:/ml project/data/cleaned/final_aviation_data.csv")
+df.drop(columns = ["unamed: 0.1","investigation_table"],errors = "ignore")
 print("data loaded succesfully! Rows: ", len(df))
-
 
 test_rows = int(input("eneter rows you want to sample for testing:"))
 print(f"sampling {test_rows} rows for testing..")
@@ -41,10 +43,10 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 y_pred = model.predict(X_test)
 
-print("\n=== CLASSIFICATION REPORT ===")
+print("\nCLASSIFICATION REPORT")
 print(classification_report(y_test, y_pred))
 
-print("\n=== CONFUSION MATRIX ===")
+print("\nCONFUSION MATRIX")
 print(confusion_matrix(y_test, y_pred))
 
-print("\n✔ MODEL TESTING COMPLETE!")
+print("\n MODEL TESTING COMPLETE!")
